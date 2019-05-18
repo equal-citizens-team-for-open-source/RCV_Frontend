@@ -10,7 +10,7 @@ import HeroHeader from '../../components/HeroHeader';
 import copywriting from '../../copywriting/frontPage';
 import { login, logout, renewSession } from '../../store/actions/auth';
 import LoginButton from '../LoginButton/LoginButton';
-
+import './App.sass';
 interface IAppProps {
   history: History;
   authActions: {
