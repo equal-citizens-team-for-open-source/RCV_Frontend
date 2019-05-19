@@ -12,18 +12,33 @@ interface ISelectOption {
   label: string;
 }
 
-const electionTypes: ISelectOption[] = [
+const electionTypeOptions: ISelectOption[] = [
   {
     value: ElectionType.DemocraticPrimary,
-    label: `Ranked Choice Voting - Democratic Primary`
+    label: `Democratic Primary with 15% threshhold`
   },
   {
     value: ElectionType.InstantRunoff,
-    label: `Ranked Choice Voting (Instant Runoff)`
+    label: `Single Winner / Instant Runoff`
   },
   {
     value: ElectionType.MultiSeat,
-    label: `Ranked Choice Voting (Multi-Seat District)`
+    label: `Multi-Member District / Single Transferable Vote`
+  }
+];
+
+const resultsVisibilityOptions: ISelectOption[] = [
+  {
+    value: ElectionResultsVisibility.AFTER_CLOSE,
+    label: `After polls have closed`
+  },
+  {
+    value: ElectionResultsVisibility.LIVE,
+    label: `Live, as votes come in`
+  },
+  {
+    value: ElectionResultsVisibility.LIVE_FOR_VOTERS,
+    label: `Live, but only if you have already voted`
   }
 ];
 
@@ -49,7 +64,7 @@ class CreateElection extends Component {
     this.setState({ [key]: value });
   };
   public render() {
-    const { title, subtitle, electionType } = this.state;
+    const { title, subtitle, electionType, resultsVisibility } = this.state;
     return (
       <div>
         <div>Election Title:</div>
@@ -70,16 +85,36 @@ class CreateElection extends Component {
         />
         <div>Optional</div>
         <hr />
-        <select
-          onChange={this.handleSelect("electionType")}
-          value={electionType}
-        >
-          {electionTypes.map((eType: ISelectOption) => (
-            <option key={eType.value} value={eType.value}>
+        <div>Election Type</div>
+        {electionTypeOptions.map((eType: ISelectOption) => (
+          <div key={eType.value} className="radio-button">
+            <label>
+              <input
+                type="radio"
+                checked={eType.value === electionType}
+                value={eType.value}
+                onChange={this.handleSelect("electionType")}
+              />
               {eType.label}
-            </option>
-          ))}
-        </select>
+            </label>
+          </div>
+        ))}
+        <hr />
+        <div>When can users see the results?</div>
+        {resultsVisibilityOptions.map((rvOption: ISelectOption) => (
+          <div key={rvOption.value} className="radio-button">
+            <label>
+              <input
+                type="radio"
+                checked={rvOption.value === resultsVisibility}
+                value={rvOption.value}
+                onChange={this.handleSelect("resultsVisibility")}
+              />
+              {rvOption.label}
+            </label>
+          </div>
+        ))}
+
         <h2>state</h2>
         <pre>{JSON.stringify(this.state, null, 2)}</pre>
         <h2>props</h2>
