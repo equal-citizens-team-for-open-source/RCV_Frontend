@@ -1,8 +1,9 @@
 import React from "react";
 import { Route, Router } from "react-router-dom";
-import { AnyAction } from "redux";
+import CreateElection from "../containers/AdminOnly/CreateElection";
 import App from "../containers/App/App";
 import AuthCallback from "../containers/AuthCallback/AuthCallback";
+import Election from "../containers/Election/Election";
 import history from "../history";
 import { store } from "../index";
 import { handleAuthentication } from "../store/actions/auth";
@@ -16,13 +17,29 @@ const doAuthenticate = (nextState: any, _replace?: any) => {
 export const makeMainRoutes = () => (
   <Router history={history}>
     <div>
-      <Route path="/" render={props => <App {...props} />} />
-      <Route path="/home" render={props => <div>Home</div>} />
+      <Route exact path="/" render={props => <App {...props} />} />
+      <Route exact path="/home" render={props => <div>Home</div>} />
       <Route
+        exact
         path="/auth_callback"
         render={(props: any) => {
           doAuthenticate(props);
           return <AuthCallback {...props} />;
+        }}
+      />
+      <Route
+        exact
+        path="/election/:electionId"
+        render={(props: any) => {
+          const { electionId } = props.match.params;
+          return <Election electionId={electionId} {...props} />;
+        }}
+      />
+      <Route
+        exact
+        path="/admin/create-election"
+        render={(props: any) => {
+          return <CreateElection {...props} />;
         }}
       />
     </div>

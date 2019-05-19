@@ -1,4 +1,4 @@
-import React, { ReactFragment } from 'react';
+import React, { ReactFragment } from "react";
 
 interface IFrontPageSection {
   section: {

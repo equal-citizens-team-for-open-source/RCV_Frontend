@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 
 interface ILoginButtonProps {
   login: () => any;
@@ -12,13 +11,9 @@ const LoginButton = (props: ILoginButtonProps) => {
   return (
     <React.Fragment>
       {isAuthenticated ? (
-        <Button variant="primary" onClick={logout}>
-          Log Out
-        </Button>
+        <button onClick={logout}>Log Out</button>
       ) : (
-        <Button variant="primary" onClick={login}>
-          Log In
-        </Button>
+        <button onClick={login}>Log In</button>
       )}
     </React.Fragment>
   );

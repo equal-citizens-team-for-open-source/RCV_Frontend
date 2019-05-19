@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 
 import copywriting from "../copywriting/frontPage";
 import "./HeroHeader.sass";
@@ -21,9 +20,7 @@ const HeroHeader = () => (
         <h4>{copywriting.EN.ourMission.copy}</h4>
         <h3>{copywriting.EN.ourVision.header}ß</h3>
         <h4>{copywriting.EN.ourVision.copy}</h4>
-        <Button variant="primary">
-          {copywriting.EN.callToAction.toUpperCase()}
-        </Button>
+        <button>{copywriting.EN.callToAction.toUpperCase()}</button>
       </div>
     </div>
   </div>
