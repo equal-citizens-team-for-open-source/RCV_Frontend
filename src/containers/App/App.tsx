@@ -1,13 +1,16 @@
-// src/components/App/index.js
+// src/containers/App/index.js
 
 import { History } from 'history';
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
+import DouglasAdamsPullout from '../../components/DouglasAdamsPullout';
+import FrontPageSection from '../../components/FrontPageSection';
+import HeroHeader from '../../components/HeroHeader';
+import copywriting from '../../copywriting/frontPage';
 import { login, logout, renewSession } from '../../store/actions/auth';
 import LoginButton from '../LoginButton/LoginButton';
-
-
+import './App.sass';
 interface IAppProps {
   history: History;
   authActions: {
@@ -41,6 +44,12 @@ class App extends Component<IAppProps> {
           logout={authActions.logout}
           isAuthenticated={isAuthenticated}
         />
+        <HeroHeader />
+        <FrontPageSection section={copywriting.EN.section1} />
+        <FrontPageSection section={copywriting.EN.section2} />
+        <FrontPageSection section={copywriting.EN.section3} />
+        <FrontPageSection section={copywriting.EN.section4} />
+        <DouglasAdamsPullout />
       </Fragment>
     );
   }
