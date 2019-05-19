@@ -4,12 +4,14 @@ import { History } from "history";
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
+
 import DouglasAdamsPullout from "../../components/DouglasAdamsPullout";
 import FrontPageSection from "../../components/FrontPageSection";
 import HeroHeader from "../../components/HeroHeader";
 import copywriting from "../../copywriting/frontPage";
 import { login, logout, renewSession } from "../../store/actions/auth";
 import LoginButton from "../LoginButton/LoginButton";
+
 import "./App.sass";
 interface IAppProps {
   history: History;
