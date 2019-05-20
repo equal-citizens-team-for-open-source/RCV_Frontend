@@ -10,8 +10,11 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import Button from "@material-ui/core/Button";
 import { MuiPickersUtilsProvider, DateTimePicker } from "material-ui-pickers";
 import MomentUtils from "@date-io/moment";
+
+import { postCreateNewElection } from "../../api/admin";
 
 import "./CreateElection.sass";
 
@@ -61,7 +64,10 @@ interface IElectionState extends IElection {
   pollsClose: Moment;
 }
 class CreateElection extends Component {
-  public state: IElectionState = {
+  public state: IElectionState & {
+    tempUserId: string;
+    backFromServer?: any;
+  } = {
     title: "",
     subtitle: "",
     pollsOpen: moment(),
@@ -69,7 +75,8 @@ class CreateElection extends Component {
     electionID: undefined,
     resultsVisibility: ElectionResultsVisibility.AFTER_CLOSE,
     electionStatus: ElectionStatus.DRAFT,
-    electionType: ElectionType.DemocraticPrimary
+    electionType: ElectionType.DemocraticPrimary,
+    tempUserId: Math.random().toString()
   };
   private handleTextinputChange = (key: string) => (event: any) => {
     const value: string = event.target.value || "";
@@ -82,6 +89,14 @@ class CreateElection extends Component {
   private handleDateTimeChange = (key: string) => (time: string) => {
     this.setState({ [key]: moment(time) });
   };
+  private submitData = async () => {
+    const data: any = await postCreateNewElection(
+      this.state,
+      this.state.tempUserId
+    );
+    console.log(data);
+    this.setState({ backFromServer: data });
+  };
   public render() {
     const {
       title,
@@ -89,7 +104,8 @@ class CreateElection extends Component {
       electionType,
       resultsVisibility,
       pollsOpen,
-      pollsClose
+      pollsClose,
+      tempUserId
     } = this.state;
     return (
       <React.Fragment>
@@ -99,6 +115,19 @@ class CreateElection extends Component {
               Create New Election
             </Typography>
             <Grid container spacing={24}>
+              <Grid item xs={12}>
+                <TextField
+                  name="tempUserId"
+                  id="tempUserId"
+                  label="Test User ID"
+                  type="text"
+                  placeholder="Temporary user id"
+                  value={tempUserId}
+                  fullWidth
+                  required
+                  onChange={this.handleTextinputChange("tempUserId")}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   name="title"
@@ -193,6 +222,16 @@ class CreateElection extends Component {
                 </Grid>
               </MuiPickersUtilsProvider>
             </Grid>
+            <div className="create-election__buttons">
+              <Button
+                variant="contained"
+                color="primary"
+                className="create-election__buttons__button"
+                onClick={this.submitData}
+              >
+                Create Election
+              </Button>
+            </div>
           </Paper>
 
           <h2>state</h2>
