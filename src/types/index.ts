@@ -36,6 +36,7 @@ export interface IElection {
   resultsVisibility: ElectionResultsVisibility;
   electionStatus: ElectionStatus;
   electionType?: ElectionType;
+  candidates?: string[];
   [key: string]: any;
 }
 
