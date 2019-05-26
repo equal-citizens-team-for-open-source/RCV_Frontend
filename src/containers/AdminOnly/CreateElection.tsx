@@ -19,6 +19,8 @@ import MomentUtils from "@date-io/moment";
 
 import { postCreateNewElection } from "../../api/admin";
 
+import omit from "lodash/omit";
+
 import "./CreateElection.sass";
 
 import {
@@ -310,8 +312,13 @@ class CreateElection extends Component {
     this.setState({ [key]: moment(time) });
   };
   private submitData = async () => {
+    const payload: IElection = {
+      ...omit(this.state, ["backFromServer", "pollsOpen", "pollsClose"]),
+      pollsOpen: this.state.pollsOpen.toISOString(),
+      pollsClose: this.state.pollsClose.toISOString()
+    } as IElection;
     const data: any = await postCreateNewElection(
-      this.state,
+      payload,
       this.state.tempUserId
     );
     console.log(data);
