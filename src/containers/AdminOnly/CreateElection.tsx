@@ -325,7 +325,6 @@ class CreateElection extends Component {
       payload,
       this.state.tempUserId
     );
-    console.log(data);
     this.setState({ backFromServer: data });
   };
 }
