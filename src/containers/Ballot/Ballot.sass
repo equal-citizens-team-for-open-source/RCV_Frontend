@@ -1,21 +1,43 @@
-$old-glory-red: #bf0a30
-$old-glory-blue: #002868
-$old-glory-white: #EEEEEE
-  
-.ribbon
-  &__blue
-    margin: 10px
-    color: $old-glory-white
-    background-color: $old-glory-blue
-  &__red
-    margin: 10px
-    color: $old-glory-white
-    background-color: $old-glory-red
-  &__white
-    margin: 10px
-    color: #222222
-    background-color: $old-glory-white
-  &__yellow
-    margin: 10px
-    color: #222222
-    background-color: yellow
+.ballot
+  padding: 20px
+  &__heading
+    font-family: Merriweather
+    font-size: 36px
+  &__container
+    display: grid
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto auto;
+    grid-template-areas: "topLeft topRight" "bottomLeft bottomRight"
+    grid-column-gap: 20px
+    grid-row-gap: 20px
+    &__choices
+      &__heading
+        grid-area: topLeft
+        font-family: Merriweather
+        font-size: 12px
+        &__info
+          font-family: Montserrat
+          font-size: 24px
+      &__list
+        grid-area: bottomLeft
+
+    &__selections
+      &__heading
+        grid-area: topRight
+      &__list
+        grid-area: bottomRight
+
+
+.candidate
+  display: flex;
+  justify-content: left
+  align-items: center
+  margin: 5px
+  padding: 5px
+  &:hover
+    color: blue 
+    background-color: #EEEEEE
+  &__icon
+    margin-right: 10px
+  &__name
+    font-family: Roboto

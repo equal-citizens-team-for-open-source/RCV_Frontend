@@ -3,23 +3,12 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
 import DoneIcon from "@material-ui/icons/Done";
+import Paper from "@material-ui/core/Paper";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-
-const firstSecondThird = (num: number): string => {
-  if (num % 10 === 1 && num !== 11) {
-    return "st";
-  }
-  if (num % 10 === 2 && num !== 12) {
-    return "nd";
-  }
-  if (num % 10 === 3 && num !== 13) {
-    return "rd";
-  }
-  return "th";
-};
+import { firstSecondThird } from "./index";
 
 const RemoveButton = ({ onClick }: { onClick: (...p: any[]) => any }) => {
   return (
@@ -53,7 +42,7 @@ const CandidateName = ({
 }: ICandidateNameProps) => {
   if (selected) {
     return (
-      <div>
+      <div className="candidate__selected">
         <Chip
           icon={<DoneIcon />}
           color="primary"
@@ -82,14 +71,12 @@ const CandidateName = ({
     );
   }
   return (
-    <div>
-      <div onClick={onClick}>
-        <div>
-          <CheckBoxOutlineBlankIcon />
-        </div>
-        <div>{name}</div>
+    <Paper className="candidate" onClick={onClick}>
+      <div className="candidate__icon">
+        <CheckBoxOutlineBlankIcon />
       </div>
-    </div>
+      <div className="candidate__name">{name}</div>
+    </Paper>
   );
 };
 
