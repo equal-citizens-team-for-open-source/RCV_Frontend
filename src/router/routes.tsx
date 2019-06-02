@@ -4,9 +4,12 @@ import CreateElection from "../containers/AdminOnly/CreateElection";
 import App from "../containers/App/App";
 import AuthCallback from "../containers/AuthCallback/AuthCallback";
 import Election from "../containers/Election/Election";
+import Ballot from "../containers/Ballot";
 import history from "../history";
 import { store } from "../index";
 import { handleAuthentication } from "../store/actions/auth";
+
+import mockCandidates from "../mockData/mockCandidates";
 
 const doAuthenticate = (nextState: any, _replace?: any) => {
   if (/access_token|id_token|error/.test(nextState.location.hash)) {
@@ -33,6 +36,20 @@ export const makeMainRoutes = () => (
         render={(props: any) => {
           const { electionId } = props.match.params;
           return <Election electionId={electionId} {...props} />;
+        }}
+      />
+      <Route
+        exact
+        path="/election/:electionId/ballot"
+        render={(props: any) => {
+          const { electionId } = props.match.params;
+          return (
+            <Ballot
+              candidateList={mockCandidates}
+              electionId={electionId}
+              {...props}
+            />
+          );
         }}
       />
       <Route

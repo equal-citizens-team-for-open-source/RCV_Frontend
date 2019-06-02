@@ -17,6 +17,7 @@ import Button from "@material-ui/core/Button";
 import { MuiPickersUtilsProvider, DateTimePicker } from "material-ui-pickers";
 import MomentUtils from "@date-io/moment";
 
+import ConfirmElectionCreation from "./ConfirmElectionCreation";
 import { postCreateNewElection } from "../../api/admin";
 
 import omit from "lodash/omit";
@@ -98,6 +99,9 @@ class CreateElection extends Component {
       tempUserId,
       candidates
     } = this.state;
+    if (this.state.backFromServer) {
+      return <ConfirmElectionCreation {...this.state} />;
+    }
     return (
       <Fragment>
         <main className="create-election__layout">
