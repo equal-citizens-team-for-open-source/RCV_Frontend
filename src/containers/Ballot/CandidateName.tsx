@@ -1,14 +1,42 @@
 import React from "react";
 
 import Button from "@material-ui/core/Button";
-import Chip from "@material-ui/core/Chip";
-import DoneIcon from "@material-ui/icons/Done";
+import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import { firstSecondThird } from "./index";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
+
+const useStyles = (placement: number) => {
+  const candidateAvatar: {
+    border: string;
+    backgroundColor?: string;
+    color?: string;
+  } = {
+    border: "2px solid black"
+  };
+  if (placement === 1) {
+    candidateAvatar.backgroundColor = "#75B0FF";
+    candidateAvatar.color = "#FFFFFF";
+  } else if (placement === 2) {
+    candidateAvatar.backgroundColor = "#ff877a";
+    candidateAvatar.color = "#FFFFFF";
+  } else if (placement === 3) {
+    candidateAvatar.backgroundColor = "#ffffff";
+    candidateAvatar.color = "#222222";
+  } else {
+    candidateAvatar.backgroundColor = "#888888";
+    candidateAvatar.color = "#FFFFFF";
+  }
+  return makeStyles(
+    createStyles({
+      candidateAvatar
+    })
+  );
+};
 
 const RemoveButton = ({ onClick }: { onClick: (...p: any[]) => any }) => {
   return (
@@ -40,15 +68,13 @@ const CandidateName = ({
   isFirst,
   isLast
 }: ICandidateNameProps) => {
+  const classes = useStyles(placement)();
   if (selected) {
     return (
-      <div className="candidate__selected">
-        <Chip
-          icon={<DoneIcon />}
-          color="primary"
-          variant="outlined"
-          label={`${placement + firstSecondThird(placement)} CHOICE`}
-        />
+      <Paper className="candidate__selected">
+        <Avatar className={classes.candidateAvatar}>
+          {placement + firstSecondThird(placement)}
+        </Avatar>
         <Button
           disabled={isFirst}
           onClick={increment}
@@ -67,7 +93,7 @@ const CandidateName = ({
         </Button>
         <div>{name}</div>
         <RemoveButton onClick={onClick} />
-      </div>
+      </Paper>
     );
   }
   return (
