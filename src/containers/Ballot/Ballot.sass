@@ -11,7 +11,7 @@ $default-blue: #3f51b5
     font-size: 36px
   &__container
     display: grid
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 34% 66%;
     grid-template-rows: auto auto;
     grid-template-areas: "topLeft topRight" "bottomLeft bottomRight"
     grid-column-gap: 20px
@@ -35,7 +35,7 @@ $default-blue: #3f51b5
 
 
 .candidate
-  display: flex;
+  display: flex
   justify-content: left
   align-items: center
   margin: 5px
@@ -48,7 +48,33 @@ $default-blue: #3f51b5
   &__name
     font-family: Roboto
   &__selected
+    padding: 10px
+    margin: 10px
+  &__display
+    display: flex
+    flex-direction: row
+    justify-content: left
+    align-items: center
+    margin-bottom: 10px
     &__avatar
-      background-color: green
+      margin-left: 3px
+    &__name
+      font-family: Montserrat
+      font-size: 24px
+      margin-left: 12px
+  &__alter
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+
+.vote
+  &__hidden
+    padding: 10px
+    margin: 2px
+    border: 1px solid rgba(0, 0, 0, 0)
+    visibility: hidden
+
+
 
 

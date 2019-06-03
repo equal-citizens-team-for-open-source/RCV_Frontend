@@ -10,13 +10,15 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import { firstSecondThird } from "./index";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 
+const noop = () => null;
+
 const useStyles = (placement: number) => {
   const candidateAvatar: {
     border: string;
     backgroundColor?: string;
     color?: string;
   } = {
-    border: "2px solid black"
+    border: "2px solid #333333"
   };
   if (placement === 1) {
     candidateAvatar.backgroundColor = "#75B0FF";
@@ -33,7 +35,29 @@ const useStyles = (placement: number) => {
   }
   return makeStyles(
     createStyles({
-      candidateAvatar
+      candidateAvatar,
+      upvote: {
+        padding: "10px",
+        margin: "2px",
+        borderRadius: "10px",
+        border: "1px solid #2acc4b",
+        color: "#2acc4b",
+        "&:hover": {
+          color: "#FFFFFF",
+          backgroundColor: "#2acc4b"
+        }
+      },
+      downvote: {
+        padding: "10px",
+        margin: "2px",
+        borderRadius: "10px",
+        border: "1px solid #ce3f2f",
+        color: "#ce3f2f",
+        "&:hover": {
+          color: "#FFFFFF",
+          backgroundColor: "#ce3f2f"
+        }
+      }
     })
   );
 };
@@ -72,27 +96,29 @@ const CandidateName = ({
   if (selected) {
     return (
       <Paper className="candidate__selected">
-        <Avatar className={classes.candidateAvatar}>
-          {placement + firstSecondThird(placement)}
-        </Avatar>
-        <Button
-          disabled={isFirst}
-          onClick={increment}
-          variant="contained"
-          color="primary"
-        >
-          <ArrowUpwardIcon />
-        </Button>
-        <Button
-          disabled={isLast}
-          onClick={decrement}
-          variant="contained"
-          color="primary"
-        >
-          <ArrowDownwardIcon />
-        </Button>
-        <div>{name}</div>
-        <RemoveButton onClick={onClick} />
+        <div className="candidate__display">
+          <Avatar
+            className={`${classes.candidateAvatar} candidate__display__avatar`}
+          >
+            {placement + firstSecondThird(placement)}
+          </Avatar>
+          <div className="candidate__display__name">{name}</div>
+        </div>
+        <div className="candidate__alter">
+          <div className="candidate__alter__vote">
+            <ArrowUpwardIcon
+              className={isFirst ? "vote__hidden" : classes.upvote}
+              onClick={isFirst ? noop : increment}
+            />
+            <ArrowDownwardIcon
+              className={isLast ? "vote__hidden" : classes.downvote}
+              onClick={isLast ? noop : decrement}
+            />
+          </div>
+          <div className="candidate__alter__delete">
+            <RemoveButton onClick={onClick} />
+          </div>
+        </div>
       </Paper>
     );
   }
