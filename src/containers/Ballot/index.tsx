@@ -25,17 +25,15 @@ class Ballot extends Component<any> {
     const { choices } = this.state;
     return (
       <Paper elevation={24} className="ballot">
-        <div className="ballot__heading">Ballot</div>
         <div className="ballot__container">
+          <div className="ballot__heading__ballot">Ballot</div>
+          <div className="ballot__heading__instructions">
+            List the candidates in order by touching or clicking on their names
+            or the button next to their name, starting with the candidate you
+            would most prefer to win the election. You can choose as many (or as
+            few) candidates as you like.
+          </div>
           <div className="ballot__container__choices__heading">
-            <div className="ballot__container__choices__info">
-              <div className="ballot__container__choices__info__paragraph">
-                List the candidates in order by touching or clicking on their
-                names or the button next to their name, starting with the
-                candidate you would most prefer to win the election. You can
-                choose as many (or as few) candidates as you like.
-              </div>
-            </div>
             {this.remainingCandidates().length > 0
               ? `Select your ${choices.length + 1}${firstSecondThird(
                   choices.length + 1
@@ -43,20 +41,20 @@ class Ballot extends Component<any> {
               : null}
           </div>
           <div className="ballot__container__choices__list">
-            {this.remainingCandidates().map((cand: string) => (
+            {this.props.candidateList.map((cand: string) => (
               <CandidateName
                 onClick={this.addPreference(cand)}
                 key={cand}
                 name={cand}
                 selected={false}
-                placement={choices.length + 1}
+                placement={this.findPosition(cand)}
               />
             ))}
           </div>
           <div className="ballot__container__selections__heading">
             Selections
           </div>
-          <div className="ballot__container__selections__list">
+          <Paper className="ballot__container__selections__list">
             {choices.map((cand: string, index: number) => (
               <CandidateName
                 isFirst={index === 0}
@@ -70,11 +68,13 @@ class Ballot extends Component<any> {
                 placement={index + 1}
               />
             ))}
-          </div>
+          </Paper>
         </div>
       </Paper>
     );
   }
+  private findPosition = (cand: string): number =>
+    this.state.choices.indexOf(cand) + 1;
   private incrementCandidate = (cand: string) => () => {
     const { choices } = this.state;
     const index: number = choices.indexOf(cand);
@@ -101,8 +101,12 @@ class Ballot extends Component<any> {
         .concat(choices.slice(index + 2))
     });
   };
-  private addPreference = (cand: string) => () =>
+  private addPreference = (cand: string) => () => {
+    if (this.state.choices.includes(cand)) {
+      return;
+    }
     this.setState({ choices: this.state.choices.concat(cand) });
+  };
   private removePreference = (cand: string) => () =>
     this.setState({
       choices: this.state.choices.filter((choice: string) => cand !== choice)

@@ -93,6 +93,7 @@ const CandidateName = ({
   isLast
 }: ICandidateNameProps) => {
   const classes = useStyles(placement)();
+
   if (selected) {
     return (
       <Paper className="candidate__selected">
@@ -125,7 +126,9 @@ const CandidateName = ({
   return (
     <Paper className="candidate" onClick={onClick}>
       <div className="candidate__icon">
-        <CheckBoxOutlineBlankIcon />
+        <div className="iconlike">
+          <span className={placement === 0 ? "hidden" : ""}>{placement}</span>
+        </div>
       </div>
       <div className="candidate__name">{name}</div>
     </Paper>

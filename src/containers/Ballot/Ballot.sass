@@ -7,29 +7,38 @@ $default-blue: #3f51b5
 .ballot
   padding: 20px
   &__heading
-    font-family: Merriweather
-    font-size: 36px
+    &__ballot
+      font-family: Montserrat
+      font-size: 36px
+      grid-area: headerLeft
+      margin-bottom: 10px;
+    &__instructions
+      font-family: Merriweather
+      font-size: 16px
+      grid-area: headerRight
+      margin-bottom: 10px;
   &__container
     display: grid
     grid-template-columns: 34% 66%;
-    grid-template-rows: auto auto;
-    grid-template-areas: "topLeft topRight" "bottomLeft bottomRight"
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "headerLeft headerRight" "topLeft topRight" "bottomLeft bottomRight"
     grid-column-gap: 20px
     grid-row-gap: 20px
     &__choices
       &__heading
         grid-area: topLeft
         font-family: Merriweather
-        font-size: 12px
-        &__info
-          font-family: Montserrat
-          font-size: 24px
+        font-size: 24px
+        text-align: center
       &__list
         grid-area: bottomLeft
-
     &__selections
+      margin: 20px
+      padding: 20px
       &__heading
         grid-area: topRight
+        font-family: Montserrat
+        font-size: 24px
       &__list
         grid-area: bottomRight
 
@@ -76,5 +85,14 @@ $default-blue: #3f51b5
     visibility: hidden
 
 
+.iconlike
+  padding: 5px 7px
+  margin: 5px
+  border-radius: 50%
+  border: 1px solid black;
+  font-size: 10px
+  font-family: Roboto
 
 
+.hidden
+  visibility: hidden
