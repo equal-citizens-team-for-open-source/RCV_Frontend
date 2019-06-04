@@ -75,6 +75,8 @@ class CreateElection extends Component {
   public state: IElectionState & {
     tempUserId: string;
     backFromServer?: any;
+    numberOfSeats: number;
+    numberOfDelegates: number;
   } = {
     title: "",
     subtitle: "",
@@ -85,7 +87,9 @@ class CreateElection extends Component {
     electionStatus: ElectionStatus.DRAFT,
     electionType: ElectionType.DemocraticPrimary,
     tempUserId: Math.random().toString(),
-    candidates: [""]
+    candidates: [""],
+    numberOfSeats: 1,
+    numberOfDelegates: 17
   };
 
   public render() {
@@ -97,7 +101,9 @@ class CreateElection extends Component {
       pollsOpen,
       pollsClose,
       tempUserId,
-      candidates
+      candidates,
+      numberOfSeats,
+      numberOfDelegates
     } = this.state;
     if (this.state.backFromServer) {
       return <ConfirmElectionCreation {...this.state} />;
@@ -161,12 +167,52 @@ class CreateElection extends Component {
                   >
                     {electionTypeOptions.map(
                       (electionTypeOption: ISelectOption) => (
-                        <FormControlLabel
-                          key={electionTypeOption.value}
-                          value={electionTypeOption.value}
-                          label={electionTypeOption.label}
-                          control={<Radio />}
-                        />
+                        <Fragment>
+                          <div>
+                            <FormControlLabel
+                              key={electionTypeOption.value}
+                              value={electionTypeOption.value}
+                              label={electionTypeOption.label}
+                              control={<Radio />}
+                            />
+                            {electionType === ElectionType.MultiSeat &&
+                            electionTypeOption.value ===
+                              ElectionType.MultiSeat ? (
+                              <TextField
+                                name="numberOfSeats"
+                                id="numberOfSeats"
+                                type="text"
+                                label="Number Of Seats"
+                                placeholder="Enter the total number of seats up for grabs."
+                                value={numberOfSeats}
+                                onChange={this.handleTextInputChange(
+                                  "numberOfSeats"
+                                )}
+                                onBlur={this.validateNumberOfSeats}
+                                required={false}
+                                fullWidth
+                              />
+                            ) : null}
+                            {electionType === ElectionType.DemocraticPrimary &&
+                            electionTypeOption.value ===
+                              ElectionType.DemocraticPrimary ? (
+                              <TextField
+                                name="numberOfDelegates"
+                                id="numberOfDelegates"
+                                type="text"
+                                label="Number Of Delegates (Default: 17)"
+                                placeholder="Enter the total number of delegates up for grabs."
+                                value={numberOfDelegates}
+                                onChange={this.handleTextInputChange(
+                                  "numberOfDelegates"
+                                )}
+                                onBlur={this.validateNumberOfDelegates}
+                                required={false}
+                                fullWidth
+                              />
+                            ) : null}
+                          </div>
+                        </Fragment>
                       )
                     )}
                   </RadioGroup>
@@ -297,6 +343,15 @@ class CreateElection extends Component {
       }
     );
   };
+  private validate = (key: string) => {
+    let value: number = parseInt(this.state[key].toString(), 10);
+    if (isNaN(value) || value < 1) {
+      value = 1;
+    }
+    this.setState({ [key]: value });
+  };
+  private validateNumberOfDelegates = () => this.validate("numberOfDelegates");
+  private validateNumberOfSeats = () => this.validate("numberOfSeats");
 
   private handleCandidateChange = (index: number) => (event: any) => {
     const name: string = event.target.value || "";
