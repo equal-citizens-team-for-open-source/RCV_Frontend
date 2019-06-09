@@ -43,3 +43,14 @@ export interface IElection {
 export enum Language {
   EN = "EN"
 }
+
+export interface IElectionTree {
+  [key: string]: {
+    candidate: string;
+    level: number;
+    votes: number;
+    children?: IElectionTree;
+  };
+}
+
+export type stvBallot = [string[], number];

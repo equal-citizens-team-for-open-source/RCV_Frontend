@@ -4,6 +4,8 @@ import CreateElection from "../containers/AdminOnly/CreateElection";
 import App from "../containers/App/App";
 import AuthCallback from "../containers/AuthCallback/AuthCallback";
 import Election from "../containers/Election/Election";
+import ElectionResults from "../containers/ElectionResults/ElectionResults";
+
 import Ballot from "../containers/Ballot";
 import history from "../history";
 import { store } from "../index";
@@ -50,6 +52,14 @@ export const makeMainRoutes = () => (
               {...props}
             />
           );
+        }}
+      />
+      <Route
+        exact
+        path="/election/:electionId/results"
+        render={(props: any) => {
+          const { electionId } = props.match.params;
+          return <ElectionResults electionId={electionId} {...props} />;
         }}
       />
       <Route

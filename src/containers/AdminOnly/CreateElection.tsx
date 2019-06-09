@@ -89,7 +89,7 @@ class CreateElection extends Component {
     tempUserId: Math.random().toString(),
     candidates: [""],
     numberOfSeats: 1,
-    numberOfDelegates: 17
+    numberOfDelegates: 24
   };
 
   public render() {
@@ -200,7 +200,7 @@ class CreateElection extends Component {
                                 name="numberOfDelegates"
                                 id="numberOfDelegates"
                                 type="text"
-                                label="Number Of Delegates (Default: 17)"
+                                label="Number Of Delegates (Default: 24)"
                                 placeholder="Enter the total number of delegates up for grabs."
                                 value={numberOfDelegates}
                                 onChange={this.handleTextInputChange(

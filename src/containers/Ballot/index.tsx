@@ -3,19 +3,7 @@ import Paper from "@material-ui/core/Paper";
 
 import CandidateName from "./CandidateName";
 import "./Ballot.sass";
-
-export const firstSecondThird = (num: number): string => {
-  if (num % 10 === 1 && num !== 11) {
-    return "st";
-  }
-  if (num % 10 === 2 && num !== 12) {
-    return "nd";
-  }
-  if (num % 10 === 3 && num !== 13) {
-    return "rd";
-  }
-  return "th";
-};
+import firstSecondThird from "../../util/firstSecondThird";
 
 class Ballot extends Component<any> {
   public state: any = {

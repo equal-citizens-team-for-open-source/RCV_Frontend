@@ -7,7 +7,7 @@ import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import { firstSecondThird } from "./index";
+import firstSecondThird from "../../util/firstSecondThird";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 
 const noop = () => null;
