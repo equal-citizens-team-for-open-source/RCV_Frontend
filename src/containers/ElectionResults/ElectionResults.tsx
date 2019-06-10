@@ -4,10 +4,14 @@ import FinalOutcome from "./FinalOutcome";
 import OriginalBallots from "./OriginalBallots";
 import makeElectionTree, { electionTreeToArray } from "./makeElectionTree";
 import LeafDisplay from "./LeafDisplay";
-import Paper from "@material-ui/core/Paper";
 import { Typography } from "@material-ui/core";
 import { stvBallot } from "../../types/index.js";
 import VoteAssignments from "./VoteAssignments";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Paper from "@material-ui/core/Paper";
 
 import "./ElectionResults.sass";
 
@@ -20,12 +24,18 @@ class ElectionResults extends Component {
     );
     return (
       <div>
-        <FinalOutcome tally={this.results.tally} />
-        <Paper elevation={12} className="results__details">
+        <Paper style={{ padding: "20px" }}>
           <Typography variant="h4" gutterBottom={true}>
-            How did people vote?
+            Final Results:
           </Typography>
-          <Typography>There were {votesInTotal} votes in total</Typography>
+          <FinalOutcome tally={this.results.tally} />
+        </Paper>
+        <Paper style={{ padding: "20px" }}>
+          <div style={{ padding: "20px" }}>
+            <Typography variant="h4" gutterBottom={true}>
+              Detailed Voting Data:
+            </Typography>
+          </div>
           {electionTreeToArray(makeElectionTree(this.results.votes)).map(
             (leaf: any) => (
               <LeafDisplay
@@ -33,16 +43,42 @@ class ElectionResults extends Component {
                 parentVotes={votesInTotal}
                 votesInTotal={votesInTotal}
                 chain={[]}
+                key={JSON.stringify(leaf)}
               />
             )
           )}
         </Paper>
-        <Paper elevation={12} className="results__details">
-          <Typography variant="h4" gutterBottom={true}>
-            How were the delegates assigned?
-          </Typography>
-          <VoteAssignments reports={this.results.reports} />
-        </Paper>
+        <ExpansionPanel>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="original-ballots"
+            id="original-ballots"
+          >
+            <Typography variant="h4" gutterBottom={true}>
+              Review the original ballots:
+            </Typography>
+          </ExpansionPanelSummary>
+
+          <ExpansionPanelDetails>
+            <OriginalBallots ballots={this.results.ballots} />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+
+        <ExpansionPanel>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="original-ballots"
+            id="original-ballots"
+          >
+            <Typography variant="h4" gutterBottom={true}>
+              How were the delegates assigned?
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            {" "}
+            <VoteAssignments reports={this.results.reports} />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
       </div>
     );
   }

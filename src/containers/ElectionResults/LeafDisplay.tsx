@@ -36,26 +36,31 @@ const LeafDisplay = ({
           <div>
             <Typography>
               {leaf.candidate} was the {leaf.level + 1}
-              {firstSecondThird(leaf.level + 1)} choice for {leaf.votes} voters
-              {chain.length > 0 ? (
-                <div>...who preferred {chain.join(", then ")}.</div>
-              ) : (
-                "."
-              )}
+              {firstSecondThird(leaf.level + 1)} choice for {leaf.votes} voters{" "}
+            </Typography>
+
+            {chain.length > 0 ? (
               <div>
+                <Typography>
+                  ...who preferred {chain.join(", then ")}
+                </Typography>
+              </div>
+            ) : null}
+            <div>
+              <Typography>
                 {((leaf.votes / votesInTotal) * 100).toFixed(2)}% of all voters
                 voted this way
-                {chain.length > 0 ? (
-                  <div>
+              </Typography>
+              {chain.length > 0 ? (
+                <div>
+                  <Typography>
                     and of those who preferred {chain.join(", then ")},{" "}
                     {((leaf.votes / parentVotes) * 100).toFixed(2)}% made{" "}
-                    {leaf.candidate} their next choice.
-                  </div>
-                ) : (
-                  "."
-                )}
-              </div>
-            </Typography>
+                    {leaf.candidate} their next choice
+                  </Typography>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </ExpansionPanelSummary>
@@ -63,12 +68,16 @@ const LeafDisplay = ({
       {get(leaf, "children", []).length > 0 ? (
         <ExpansionPanelDetails style={{ display: "block" }}>
           {leaf.children.map((child: any) => (
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div
+              style={{ display: "flex", flexDirection: "column" }}
+              key={JSON.stringify(child)}
+            >
               <LeafDisplay
                 leaf={child}
                 votesInTotal={votesInTotal}
                 parentVotes={leaf.votes}
                 chain={chain.concat(leaf.candidate)}
+                key={JSON.stringify(child)}
               />
             </div>
           ))}

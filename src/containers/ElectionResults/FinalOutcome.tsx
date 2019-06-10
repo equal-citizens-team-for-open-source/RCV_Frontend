@@ -37,7 +37,6 @@ const FinalOutcome = ({ tally }: { [key: string]: ICandidateResult }) => {
     ([_name, result]: tallyTuple) => result.seatsAllocated,
     ([_name, result]: tallyTuple) => result.votes
   ]).reverse() as tallyTuple[];
-  console.log({ winners });
   return (
     <div>
       <div className={classes.root}>

@@ -54,7 +54,7 @@ const EliminationTable = ({
                 change = `+${change}`;
               }
               return (
-                <TableRow>
+                <TableRow key={candidate}>
                   <TableCell
                     style={
                       lost
@@ -100,26 +100,33 @@ const makeReportText = (outcome: any) => {
   switch (outcome.action) {
     case "ELIMINATED - FEWEST VOTES":
       return (
-        <div>
+        <div key={JSON.stringify(outcome)}>
           <div>
-            Candidate {outcome.candidate} was eliminated, as they had the fewest
-            votes this round, and all votes for {outcome.candidate} were
-            transferred to the voters next preferences.
-          </div>
-          <ul>
-            {Object.entries(outcome.changes).map(
-              ([transferCandidate, transferred]) => {
-                if (transferred === 0) {
-                  return null;
+            <div style={{ paddingBottom: "10px" }}>
+              <Typography>
+                Candidate {outcome.candidate} was eliminated, as they had the
+                fewest votes this round, and all votes for {outcome.candidate}{" "}
+                were transferred to the voters next preferences.
+              </Typography>
+            </div>
+            <ul>
+              {Object.entries(outcome.changes).map(
+                ([transferCandidate, transferred]) => {
+                  if (transferred === 0) {
+                    return null;
+                  }
+                  return (
+                    <li key={JSON.stringify([transferCandidate, transferred])}>
+                      <Typography>
+                        {transferred} votes were transferred to{" "}
+                        {transferCandidate}
+                      </Typography>
+                    </li>
+                  );
                 }
-                return (
-                  <li>
-                    {transferred} votes were transferred to {transferCandidate}
-                  </li>
-                );
-              }
-            )}
-          </ul>
+              )}
+            </ul>
+          </div>
         </div>
       );
     default:
@@ -164,7 +171,7 @@ const DelegateAssignmentTable = ({
           <TableBody>
             {Object.keys(results).map((candidate: string) => {
               return (
-                <TableRow>
+                <TableRow key={candidate}>
                   <TableCell>{candidate}</TableCell>
                   <TableCell>{results[candidate].votes}</TableCell>
                   <TableCell>
@@ -181,31 +188,42 @@ const DelegateAssignmentTable = ({
   );
 };
 
-const makeDelegateAssignmentText = (outcome: any, report: any) => {
+const makeDelegateAssignmentText = (
+  outcome: any,
+  report: any,
+  index: number
+) => {
   const candidate: string = outcome.candidate;
   const seatsAllocated: number = report.results[candidate].seatsAllocated;
   const totalVotes: number = report.results[candidate].votes;
   const effectiveVotes: number = totalVotes / (seatsAllocated + 1);
   return (
-    <div>
-      <div>
-        Candidate {candidate} had the most votes, and was awarded a delegate
-        this round.
+    <div key={candidate + index.toString()}>
+      <div style={{ paddingBottom: "10px" }}>
+        <Typography>
+          Candidate {candidate} had the most votes, and was awarded a delegate
+          this round.
+        </Typography>
       </div>
-      <div>
-        We apply the Jefferson method of proportional representation, so in the
-        next round, {candidate} will have their total votes, {totalVotes},
-        divided by the number of seats they have so far, {seatsAllocated}, plus
-        1.
+      <div style={{ paddingBottom: "10px" }}>
+        <Typography>
+          We apply the Jefferson method of proportional representation, so in
+          the next round, {candidate} will have their total votes, {totalVotes},
+          divided by the number of seats they have so far, {seatsAllocated},
+          plus 1.
+        </Typography>
       </div>
-      <div>
-        It works out to {totalVotes} / {seatsAllocated + 1} ={" "}
-        {effectiveVotes.toFixed(0)} effective votes for the next round.
+      <div style={{ paddingBottom: "10px" }}>
+        <Typography>
+          It works out to {totalVotes} / {seatsAllocated + 1} ={" "}
+          {effectiveVotes.toFixed(0)} effective votes for the next round.
+        </Typography>
       </div>
       {outcome.remainingDelegates ? (
-        <div>
-          "There are " + outcome.remainingDelegates + " delegates left to
-          assign."
+        <div style={{ paddingBottom: "10px" }}>
+          <Typography>
+            There are {outcome.remainingDelegates} delegates left to assign.
+          </Typography>
         </div>
       ) : null}
     </div>
@@ -222,8 +240,8 @@ const DelegateAssignmentReport = ({ report }: any) => (
           effectiveVotesForThisRound={report.effectiveVotesForThisRound}
         />
         <div>
-          {report.outcome.map((outcome: any) =>
-            makeDelegateAssignmentText(outcome, report)
+          {report.outcome.map((outcome: any, index: number) =>
+            makeDelegateAssignmentText(outcome, report, index)
           )}
         </div>
       </div>
@@ -236,9 +254,12 @@ const VoteAssignment = ({ reports }: { reports: IEliminationReport[] }) => (
   <div>
     {reports.map(report =>
       report.hasOwnProperty("effectiveVotesForThisRound") ? (
-        <DelegateAssignmentReport report={report} />
+        <DelegateAssignmentReport
+          key={JSON.stringify(report)}
+          report={report}
+        />
       ) : (
-        <EliminationReport report={report} />
+        <EliminationReport key={JSON.stringify(report)} report={report} />
       )
     )}
   </div>
