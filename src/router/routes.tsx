@@ -7,6 +7,7 @@ import Election from "../containers/Election/Election";
 import ElectionResults from "../containers/ElectionResults/ElectionResults";
 
 import Ballot from "../containers/Ballot";
+import Dashboard from "../containers/Dashboard";
 import history from "../history";
 import { store } from "../index";
 import { handleAuthentication } from "../store/actions/auth";
@@ -23,7 +24,6 @@ export const makeMainRoutes = () => (
   <Router history={history}>
     <div>
       <Route exact path="/" render={props => <App {...props} />} />
-      <Route exact path="/home" render={props => <div>Home</div>} />
       <Route
         exact
         path="/auth_callback"
@@ -67,6 +67,15 @@ export const makeMainRoutes = () => (
         path="/admin/create-election"
         render={(props: any) => {
           return <CreateElection {...props} />;
+        }}
+      />
+
+      <Route
+        exact
+        path="/dashboard/:userId"
+        render={(props: any) => {
+          const { userId } = props.match.params;
+          return <Dashboard userId={userId} />;
         }}
       />
     </div>

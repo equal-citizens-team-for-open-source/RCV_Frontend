@@ -8,7 +8,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import { tsConstructorType } from "@babel/types";
 
 type stvBallot = [string[], number];
 

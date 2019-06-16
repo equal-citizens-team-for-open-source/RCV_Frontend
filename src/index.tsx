@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import Routes from "./router/routes";
 import * as serviceWorker from "./serviceWorker";
 import configureStore from "./store/configureStore";
-
+import "./index.sass";
 export const store = configureStore();
 
 const renderApp = () =>

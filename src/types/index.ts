@@ -1,5 +1,7 @@
 import { Moment } from "moment";
 
+declare module "react-swipeable-views";
+
 export type VoteRecord = string[][];
 
 export enum ElectionType {

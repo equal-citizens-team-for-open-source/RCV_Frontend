@@ -6,7 +6,6 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import firstSecondThird from "../../util/firstSecondThird";
 import get from "lodash/get";
-import DisplayChart from "./DisplayChart";
 
 const darknessLevel = (level: number): string => {
   return `rgba(26, 74, 153, ${Math.min(0.3, (level + 1) * 0.07)})`;
